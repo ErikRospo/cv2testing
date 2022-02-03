@@ -4,7 +4,7 @@ import math
 from cv2 import COLOR_BGR2GRAY, COLOR_GRAY2BGR, COLOR_BGR2LAB,COLOR_LAB2BGR
 
 import numpy as np
-effect=[0,2,6]
+effect=[0]
 display=0
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
@@ -30,7 +30,14 @@ def increaseContrast(img):
         cv2.imshow("lab",limg)
     final = cv2.cvtColor(limg, COLOR_LAB2BGR)
     return final
+def morphology_operations(image):
+    morph_size =2
 
+    morph_elem = cv2.MORPH_RECT
+    element = cv2.getStructuringElement(morph_elem, (2*morph_size + 1, 2*morph_size+1), (morph_size, morph_size))
+    operation = cv2.MORPH_GRADIENT
+    dst = cv2.morphologyEx(image, operation, element)
+    return dst
 def laplacianMagic(image):
     ddepth = cv2.CV_16S
     kernel_size = 3
@@ -62,6 +69,8 @@ while True:
         frame=cv2.subtract(frame,laplacianMagic(frame))
     if 2 in effect:  
         frame=increaseContrast(frame)
+    if 7 in effect:
+        frame=morphology_operations(frame)
     # Display the resulting frame
     cv2.imshow('Video', frame)
 
