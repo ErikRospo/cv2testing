@@ -4,7 +4,7 @@ import math
 from cv2 import COLOR_BGR2GRAY, COLOR_GRAY2BGR, COLOR_BGR2LAB,COLOR_LAB2BGR
 
 import numpy as np
-effect=[0]
+effect=[2,6]
 display=0
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
@@ -51,7 +51,6 @@ def laplacianMagic(image):
 while True:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
-
     gray = cv2.cvtColor(frame, COLOR_BGR2GRAY)
 
     faces = faceCascade.detectMultiScale(
